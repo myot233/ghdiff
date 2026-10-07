@@ -1994,6 +1994,13 @@ copies give the two libraries two separate theme controllers, so the diff and
 the tree drift apart. `pnpm-workspace.yaml` overrides both to 1.0.1. Do not
 remove that override.
 
+`evlog>next` is overridden to `-`, which removes it. next is an optional peer of
+evlog, for an adapter this app never imports, and it stayed in the lockfile
+after this app stopped being a Next.js app — so every install fetched next, its
+native compiler and sharp, and `pnpm audit` reported their advisories against a
+package nothing here runs. Drop the override only if this app starts using
+evlog's Next.js adapter.
+
 jotai is the one state library in the graph, and it holds the remembered
 settings and nothing else. It cost about 9 KiB of the Worker's gzipped headroom,
 new modules included, which is what a hand-written store over `localStorage`,
